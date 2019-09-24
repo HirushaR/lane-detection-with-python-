@@ -8,8 +8,17 @@ def canny(image):
     canny = cv2.Canny(blur , 50 , 150)
     return canny
 
+def regoin_of_interest(image):
+    height = image.shape[0]
+    polygons = np.array([
+        [(200, height), (1100, height), (550, 250)]
+    ])
+    mask = np.zeros_like(image)
+    cv2.fillPoly(mask, polygons, 255)
+    return mask
+
 img = cv2.imread('test_image.jpg')
 lane_img = np.copy(img)
 canny = canny(lane_img)
-plt.imshow(canny)
-plt.show()
+cv2.imshow('result', regoin_of_interest(canny))
+cv2.waitKey(0)
