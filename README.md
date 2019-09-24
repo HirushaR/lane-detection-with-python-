@@ -4,6 +4,9 @@
 this is how you detected the lane 
 use openCV
 
+opencv have imread() and imshow() function
+to load image i use imread()
+
 **Contributor**         
 Hirushar Randunu           
 hirusharandunu11@gmail.com
