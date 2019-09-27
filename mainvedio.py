@@ -11,7 +11,7 @@ def make_cordinates(image, line_parameters):
     return np.array([x1, y1, x2, y2])
 
 def canny(image):
-    gray = cv2.cvtColor(lane_img , cv2.COLOR_RGB2GRAY)
+    gray = cv2.cvtColor(frame , cv2.COLOR_RGB2GRAY)
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
     canny = cv2.Canny(blur, 50, 150)
     return canny
@@ -52,13 +52,29 @@ def regoin_of_interest(image):
     masked_image = cv2.bitwise_and(image, mask)
     return masked_image
 
-img = cv2.imread('test_image.jpg')
-lane_img = np.copy(img)
-canny_image = canny(lane_img)
-croped_image = regoin_of_interest(canny_image)
-lines = cv2.HoughLinesP(croped_image, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
-avarage_lines = avarage_slope_intercept(lane_img, lines)
-line_image = display_lines(lane_img, avarage_lines)
-combo_img = cv2.addWeighted(lane_img, 0.8, line_image, 1, gamma=1)
-cv2.imshow('result', canny_image)
-cv2.waitKey(0)
+# img = cv2.imread('test_image.jpg')
+# lane_img = np.copy(img)
+# canny_image = canny(lane_img)
+# croped_image = regoin_of_interest(canny_image)
+# lines = cv2.HoughLinesP(croped_image, 2, np.pi/180, 100, np.array([]), minLineLength=40, maxLineGap=5)
+# avarage_lines = avarage_slope_intercept(lane_img, lines)
+# line_image = display_lines(lane_img, avarage_lines)
+# combo_img = cv2.addWeighted(lane_img, 0.8, line_image, 1, gamma=1)
+# cv2.imshow('result', canny_image)
+# cv2.waitKey(0)
+
+cap = cv2.VideoCapture("test2.mp4")
+while(cap.isOpened()):
+    _, frame = cap.read()
+    canny_image = canny(frame)
+    croped_image = regoin_of_interest(canny_image)
+    lines = cv2.HoughLinesP(croped_image , 2 , np.pi / 180 , 100 , np.array([]) , minLineLength=40 , maxLineGap=5)
+    avarage_lines = avarage_slope_intercept(frame , lines)
+    line_image = display_lines(frame , avarage_lines)
+    combo_img = cv2.addWeighted(frame , 0.8 , line_image , 1 , gamma=1)
+    cv2.imshow('result' , combo_img)
+    if cv2.waitKey(1) == ord('q'):
+        break
+cap.release()
+cv2.destroyAllWindows()
+
