@@ -60,5 +60,5 @@ lines = cv2.HoughLinesP(croped_image, 2, np.pi/180, 100, np.array([]), minLineLe
 avarage_lines = avarage_slope_intercept(lane_img, lines)
 line_image = display_lines(lane_img, avarage_lines)
 combo_img = cv2.addWeighted(lane_img, 0.8, line_image, 1, gamma=1)
-cv2.imshow('result', combo_img)
+cv2.imshow('result', canny_image)
 cv2.waitKey(0)
